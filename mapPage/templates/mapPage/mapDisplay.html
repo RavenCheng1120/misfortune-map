@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <title>厄運地圖</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <style>
+      #map {
+        height: 100%;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+
+
+  <body>
+    <!--
+    <div class="locations">
+      {% for house in houses%}
+        <div class="location">
+          <h2><a href="{{house.website}}">{{house.address}}</a></h2>
+          <p>{{house.article}}</p>
+          <p>{{house.date}}</p>
+        </div>
+      {% endfor %}
+    </div>
+  -->
+
+    <div id="map"></div>
+    <script>
+    //獲得資料庫中凶宅資訊，根據地址在地圖上
+      $(document).ready(function(){
+        var endpoint = '/map/api/house/'
+        $.ajax({
+          method:'GET',
+          url:endpoint,
+          success:function(data){
+            for(var i = 0;i<data.length;i++){
+              console.log(data[i].address);
+              codeAddress(geocoder, map, data[i]);
+            }
+          },
+          error:function(error_data){
+            console.log("error");
+            console.log(error_data);
+          }
+        })
+      })
+    </script>
+
+    <script>
+      var map;
+      var geocoder;
+
+      //設定地圖初始位置
+      function initMap() {
+        geocoder = new google.maps.Geocoder();
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 24.135, lng: 120.65},
+          zoom: 11
+        });
+      }
+
+      //用geocoder把地址轉換成經緯度，在地圖上標記出來
+      function codeAddress(geocoder, map, location) {
+        geocoder.geocode({'address': location.address}, function(results, status) {
+          if (status === 'OK') {
+            var check = -1;
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location,
+              animation: google.maps.Animation.DROP
+            });
+
+            var infowindow = new google.maps.InfoWindow({
+              content:'<strong>事件'+location.category+'</strong><br/>地點：'+location.address+'<br/><a href="'+location.website+'">點我觀看詳情</a>'
+            });
+
+            marker.addListener('click',function(){
+              check = check * -1;
+              if(check > 0){
+                infowindow.open(map, marker);
+              }else{
+                infowindow.close();
+              }
+            });
+          } else {
+            console.log('Geocode was not successful');
+            //alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVRA9wbRv6YFZpIYcsdTmcWr0Xeqgap2A&callback=initMap"
+      async defer>
+    </script>
+
+  </body>
+</html>
