@@ -1,48 +1,116 @@
+{% load static from staticfiles %}
+
 <!DOCTYPE html>
 <html>
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <meta charset="utf-8">
     <title>厄運地圖</title>
+    <link rel="stylesheet" href="{% static 'mapStyle.css'%}">
     <meta name="viewport" content="initial-scale=1.0">
-    <style>
-      #map {
-        height: 100%;
-      }
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
   </head>
 
 
   <body>
-    <!--
-    <div class="locations">
-      {% for house in houses%}
-        <div class="location">
-          <h2><a href="{{house.website}}">{{house.address}}</a></h2>
-          <p>{{house.article}}</p>
-          <p>{{house.date}}</p>
-        </div>
-      {% endfor %}
+    <div class="side-bar">
+      <a href="#about">查詢地點</a>
+      <button class="dropdown-btn">篩選
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <label class="container">凶宅
+          <input type="checkbox" checked="checked" id="houseCheck" onclick="houseCheckbox()">
+        </label>
+        <label class="container">交通事故
+          <input type="checkbox" id="trafficCheck" onclick="trafficCheckbox()">
+        </label>
+        <label class="container">颱風災情
+          <input type="checkbox" id="typhoonCheck">
+        </label>
+      </div>
+      <a href="#contact">Contact</a>
     </div>
-  -->
+    <script>
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+
+    for (i = 0; i < dropdown.length; i++) {
+      dropdown[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var dropdownContent = this.nextElementSibling;
+        if (dropdownContent.style.display === "block") {
+          dropdownContent.style.display = "none";
+        } else {
+          dropdownContent.style.display = "block";
+        }
+      });
+    }
+
+    //開關地圖上的凶宅標記
+    function houseCheckbox(){
+      var checkBox = document.getElementById("houseCheck");
+      if (checkBox.checked == true){
+        setMapOnAll(map,0);
+      } else {
+        setMapOnAll(null,0);
+      }
+    }
+
+    //開關地圖上的交通事故標記
+    function trafficCheckbox(){
+      var checkBox = document.getElementById("trafficCheck");
+      if (checkBox.checked == true){
+        setMapOnAll(map,1);
+      } else {
+        setMapOnAll(null,1);
+      }
+    }
+
+    //Sets the map on all markers in the array
+    function setMapOnAll(map,num) {
+      //凶宅
+      if(num==0){
+        for (var i = 0; i < markersHouse.length; i++)
+          markersHouse[i].setMap(map);
+      }
+      //交通事故
+      else if(num==1) {
+        for (var i = 0; i < markersTraffic.length; i++)
+          markersTraffic[i].setMap(map);
+      }
+    }
+    </script>
+
+
 
     <div id="map"></div>
     <script>
     //獲得資料庫中凶宅資訊，根據地址在地圖上
       $(document).ready(function(){
-        var endpoint = '/map/api/house/'
+        var endpoint = '/map/api/house/';
         $.ajax({
           method:'GET',
           url:endpoint,
           success:function(data){
             for(var i = 0;i<data.length;i++){
               console.log(data[i].address);
-              codeAddress(geocoder, map, data[i]);
+              codeAddress(geocoder, map, data[i], 0);
+            }
+          },
+          error:function(error_data){
+            console.log("error");
+            console.log(error_data);
+          }
+        })
+
+        var endpoint_traf = '/map/api/traffic/';
+        $.ajax({
+          method:'GET',
+          url:endpoint_traf,
+          success:function(data_traf){
+            for(var i = 0;i<data_traf.length;i++){
+              console.log(data_traf[i].address);
+              codeAddress(geocoder, map, data_traf[i], 1);
             }
           },
           error:function(error_data){
@@ -56,31 +124,143 @@
     <script>
       var map;
       var geocoder;
+      var markersHouse = [];
+      var markersTraffic = [];
+      var markersTyphoon = [];
+      var blueIcon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
 
       //設定地圖初始位置
       function initMap() {
+        var styledMapType = new google.maps.StyledMapType(
+          [
+            {
+                "featureType": "all",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "invert_lightness": true
+                    },
+                    {
+                        "saturation": 20
+                    },
+                    {
+                        "lightness": 50
+                    },
+                    {
+                        "gamma": 0.4
+                    },
+                    {
+                        "hue": "#00ffee"
+                    }
+                ]
+            },
+            {
+                "featureType": "all",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "all",
+                "elementType": "labels",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    },
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative.land_parcel",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "landscape",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#405769"
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#232f3a"
+                    }
+                ]
+            }
+          ],
+            {name:'黑暗模式'});
         geocoder = new google.maps.Geocoder();
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 24.135, lng: 120.65},
-          zoom: 11
+          zoom: 11,
+          mapTypeControl: false,
+          fullscreenControl: false
         });
+        map.mapTypes.set('黑暗模式', styledMapType);
+        map.setMapTypeId('黑暗模式');
       }
 
       //用geocoder把地址轉換成經緯度，在地圖上標記出來
-      function codeAddress(geocoder, map, location) {
+      function codeAddress(geocoder, map, location, num) {
         geocoder.geocode({'address': location.address}, function(results, status) {
           if (status === 'OK') {
             var check = -1;
             map.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-              map: map,
-              position: results[0].geometry.location,
-              animation: google.maps.Animation.DROP
-            });
 
-            var infowindow = new google.maps.InfoWindow({
-              content:'<strong>事件'+location.category+'</strong><br/>地點：'+location.address+'<br/><a href="'+location.website+'">點我觀看詳情</a>'
-            });
+            //凶宅執行區塊
+            if(num==0){
+              var marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location,
+                animation: google.maps.Animation.DROP,
+                icon: "{% static 'skull.png'%}"
+              });
+              markersHouse.push(marker);
+              //加上點擊事件與資訊視窗
+              var infowindow = new google.maps.InfoWindow({
+                content:'<strong>事件'+location.category+'</strong><br/>地點：'+location.address+'<br/><a href="'+location.website+'">點我觀看詳情</a>'
+              });
+            }
+
+            //交通事故執行區塊
+            if(num==1){
+              var marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location,
+                animation: google.maps.Animation.DROP,
+                icon: "{% static 'car.png'%}"
+              });
+              markersTraffic.push(marker);
+              marker.setMap(null);
+              //加上點擊事件與資訊視窗
+              var infowindow = new google.maps.InfoWindow({
+                content:'<strong>地點:'+location.address+'</strong><br/>時間：'+location.date+'<br/>交通事故類別：'+location.category
+              });
+            }
 
             marker.addListener('click',function(){
               check = check * -1;
@@ -92,7 +272,6 @@
             });
           } else {
             console.log('Geocode was not successful');
-            //alert('Geocode was not successful for the following reason: ' + status);
           }
         });
       }
