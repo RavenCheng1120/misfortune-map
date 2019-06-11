@@ -2,6 +2,15 @@
   height: 100%;
   margin-left:12%;
 }
+.search-box{
+  position: fixed;
+  z-index: 2;
+  margin-left:13%;
+  margin-top: 21px;
+  padding: 6px 8px;
+  background-color: #bbffee;
+  display: none;
+}
 .side-bar{
   height: 100%;
   width: 12%;
@@ -41,8 +50,6 @@
 .dropdown-container input:checked + label {
   color: #f1f1f1;
 }
-
-
 .fa-caret-down {
   float: right;
   padding-right: 8px;
