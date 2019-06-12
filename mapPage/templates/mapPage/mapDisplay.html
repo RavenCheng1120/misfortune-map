@@ -24,9 +24,6 @@
         <label id="traf-container">交通事故
           <input type="checkbox" id="trafficCheck" onclick="trafficCheckbox()">
         </label>
-        <label id="ty-container">颱風災情
-          <input type="checkbox" id="typhoonCheck">
-        </label>
       </div>
       <a href="#contact">Contact</a>
     </div>
@@ -58,9 +55,11 @@
       if (checkBox.checked == true){
         document.getElementById("h-container").style.color= 'white';
         setMapOnAll(map,0);
+        markerClusterHouse.addMarkers(markersHouse);
       } else {
         document.getElementById("h-container").style.color= '#818181';
         setMapOnAll(null,0);
+        markerClusterHouse.clearMarkers();
       }
     }
 
@@ -70,9 +69,11 @@
       if (checkBox.checked == true){
         document.getElementById("traf-container").style.color= 'white';
         setMapOnAll(map,1);
+        markerClusterTraf.addMarkers(markersTraffic);
       } else {
         document.getElementById("traf-container").style.color= '#818181';
         setMapOnAll(null,1);
+        markerClusterTraf.clearMarkers();
       }
     }
 
@@ -136,6 +137,9 @@
 
     <div id="map"></div>
     <script>
+    var options = {
+          imagePath: "{% static '/m'%}"
+      };
     //獲得資料庫中資訊，根據地址在地圖上
       $(document).ready(function(){
         //凶宅
@@ -146,8 +150,10 @@
           success:function(data){
             for(var i = 0;i<data.length;i++){
               console.log(data[i].address);
-              codeAddress(geocoder, map, data[i], 0);
+              place_marker_house(map,data[i]);
             }
+            markerClusterHouse = new MarkerClusterer(map, markersHouse,
+                options,{ ignoreHiddenMarkers: true });
           },
           error:function(error_data){
             console.log("error");
@@ -163,8 +169,12 @@
           success:function(data_traf){
             for(var i = 0;i<data_traf.length;i++){
               console.log(data_traf[i].address);
-              codeAddress(geocoder, map, data_traf[i], 1);
+              place_marker_traf(map,data_traf[i]);
             }
+            markerClusterTraf = new MarkerClusterer(map, markersTraffic,
+                options,{ ignoreHiddenMarkers: true });
+            setMapOnAll(null,1);
+            markerClusterTraf.clearMarkers();
           },
           error:function(error_data){
             console.log("error");
@@ -177,9 +187,10 @@
     <script>
       var map;
       var geocoder;
+      var markerClusterTraf;
+      var markerClusterHouse;
       var markersHouse = [];
       var markersTraffic = [];
-      var markersTyphoon = [];
 
       //設定地圖初始位置
       function initMap() {
@@ -276,59 +287,55 @@
         map.setMapTypeId('黑暗模式');
       }
 
-      //用geocoder把地址轉換成經緯度，在地圖上標記出來
-      function codeAddress(geocoder, map, location, num) {
-        geocoder.geocode({'address': location.address}, function(results, status) {
-          if (status === 'OK') {
-            var check = -1;
-            map.setCenter(results[0].geometry.location);
+      function place_marker_traf(map,data_traf){
+        var check = -1;
+        var marker = new google.maps.Marker({
+          position: {lat:data_traf.lat, lng:data_traf.lng},
+          map: map,
+          icon: "{% static 'car.png'%}"
+        });
+        markersTraffic.push(marker);
+        //加上點擊事件與資訊視窗
+        var infowindow = new google.maps.InfoWindow({
+          content:'<strong>地點:'+data_traf.address+'</strong><br/>時間：'+data_traf.date+'<br/>交通事故類別：'+data_traf.category
+        });
 
-            //凶宅執行區塊
-            if(num==0){
-              var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location,
-                animation: google.maps.Animation.DROP,
-                icon: "{% static 'skull.png'%}"
-              });
-              markersHouse.push(marker);
-              //加上點擊事件與資訊視窗
-              var infowindow = new google.maps.InfoWindow({
-                content:'<strong>事件'+location.category+'</strong><br/>地點：'+location.address+'<br/><a href="'+location.website+'">點我觀看詳情</a>'
-              });
-            }
+        marker.addListener('click',function(){
+          check = check * -1;
+          if(check > 0){
+            infowindow.open(map, marker);
+          }else{
+            infowindow.close();
+          }
+        });
+      }
 
-            //交通事故執行區塊
-            if(num==1){
-              var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location,
-                animation: google.maps.Animation.DROP,
-                icon: "{% static 'car.png'%}"
-              });
-              markersTraffic.push(marker);
-              marker.setMap(null);
-              //加上點擊事件與資訊視窗
-              var infowindow = new google.maps.InfoWindow({
-                content:'<strong>地點:'+location.address+'</strong><br/>時間：'+location.date+'<br/>交通事故類別：'+location.category
-              });
-            }
+      function place_marker_house(map,location){
+        var check = -1;
+        var marker = new google.maps.Marker({
+          position: {lat:location.lat, lng:location.lng},
+          map: map,
+          icon: "{% static 'skull.png'%}"
+        });
+        markersHouse.push(marker);
+        //加上點擊事件與資訊視窗
+        var infowindow = new google.maps.InfoWindow({
+          content:'<strong>事件'+location.category+'</strong><br/>地點：'+location.address+'<br/><a href="'+location.website+'">點我觀看詳情</a>'
+        });
 
-            marker.addListener('click',function(){
-              check = check * -1;
-              if(check > 0){
-                infowindow.open(map, marker);
-              }else{
-                infowindow.close();
-              }
-            });
-          } else {
-            console.log('Geocode was not successful');
+        marker.addListener('click',function(){
+          check = check * -1;
+          if(check > 0){
+            infowindow.open(map, marker);
+          }else{
+            infowindow.close();
           }
         });
       }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVRA9wbRv6YFZpIYcsdTmcWr0Xeqgap2A&callback=initMap"
+    <script src="{% static 'markerclusterer.js'%}">
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=my_key&callback=initMap"
       async defer>
     </script>
 
