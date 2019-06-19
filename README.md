@@ -199,8 +199,9 @@ STATICFILES_DIRS=(
     <link rel="stylesheet" href="{% static 'mapStyle.css'%}">
     <meta name="viewport" content="initial-scale=1.0">
   </head>
-``` 
-+ 設置左側欄位的按鈕，以及隱藏起來的查詢bar  
+```   
+    
++ 設置左側欄位的按鈕，以及隱藏起來的查詢bar，最後是地圖區塊。  
 ```html
 <body>
     <div class="side-bar">
@@ -225,9 +226,18 @@ STATICFILES_DIRS=(
         <button type="button" onclick="startSearching()">搜尋</button>
       </form>
     </div>
+  
+    <div id="map"></div>
 ```
-
-
+    
++ 連接google map api，以及地圖標示的js檔案。 
+```html
+<script src="{% static 'markerclusterer.js'%}">
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVRA9wbRv6YFZpIYcsdTmcWr0Xeqgap2A&callback=initMap"
+  async defer>
+</script>
+```
 
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
