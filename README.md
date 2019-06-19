@@ -1,6 +1,6 @@
 ## 第一步：收集資料    
 |文件類型|出處| 
-|-------|----| 
+|-------|:----| 
 |凶宅資料|https://unluckyhouse.com/archive/index.php/f-13.html| 
 |交通事故|https://opendata.taichung.gov.tw/dataset?q=%E4%BA%A4%E9%80%9A%E4%BA%8B%E6%95%85| 
   
@@ -20,9 +20,10 @@ Django有屬於它的MTV(Model-Template-Views)
 + Views：傳達資料內容  
   
 ### 創建
-首先，先下載Django。在終端機下達指令
-`pip install django`    
-輸入`django-admin startproject misfortuneMap`創建Django project，misfortuneMap是root app名稱。   
+首先，先下載Django。在終端機下達指令`pip install django`   
+  
+輸入`django-admin startproject misfortuneMap`創建Django project，misfortuneMap是root app名稱。  
+    
 若要開啟server，輸入`python manage.py runserver`，則"http://127.0.0.1:8000/"可開啟網站。   
   
   
