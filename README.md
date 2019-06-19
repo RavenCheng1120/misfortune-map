@@ -107,7 +107,8 @@ class HouseLocation(models.Model):
     #QuerySet中object顯示名稱
     def __str__(self):
         return self.address
-
+``` 
+```python
 #交通事故資料庫
 class TrafficLocation(models.Model):
     address = models.CharField(max_length=150)
@@ -142,7 +143,8 @@ class TrafficSerializer(serializers.ModelSerializer):
 ### admin.py
 將model放到django administration，以方便控管。
 > python manage.py createsuperuser   
-  先設定super user，可以進入admin區域，設定好user和密碼，就可以透過 http://127.0.0.1:8000/admin/ 進入django administration。  
+    
+先設定super user，可以進入admin區域，設定好user和密碼，就可以透過 http://127.0.0.1:8000/admin/ 進入django administration。  
 ```python
 from django.contrib import admin
 from .models import HouseLocation, TrafficLocation
@@ -185,7 +187,7 @@ STATICFILES_DIRS=(
     
 ## 第四步：撰寫html文件   
 將google map呈現在網頁上，並配合SQLite資料庫的資料取用。  
-
+在html檔案上方加入`{% load static from staticfiles %}`，用來存取assests中的文件與圖片。 
 
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
