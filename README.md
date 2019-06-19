@@ -14,10 +14,11 @@
   
 ## 第三步：創建Django專案 
 Django是一個基於Python語言所寫出來的框架，簡化了很多寫網頁的流程。 
-Django有屬於它的MTV(Model-Template-Views)  
+Django有屬於它的MTV(Model-Template-Views)
 + Model：描述你的資料類型  
 + Template：使用者看到網頁的形式   
 + Views：傳達資料內容  
+  
   
 首先，先下載Django。在終端機下達指令
 `pip install django`
