@@ -462,7 +462,57 @@ STATICFILES_DIRS=(
     }
 </script>
 ```
++ 利用ajax和REST Framework，透過url將資料庫中的data取出，呼叫place_marker_house或place_marker_traf函數，將地點存入陣列中，方便清除與重新標記。    
+MarkerClusterer可以製作標記群集，把相近的標記歸類到同一點顯示，如此一來地圖標記就不會太密集。
+```html
+<script>
+    var options = {
+          imagePath: "{% static '/m'%}"
+      };
+    //獲得資料庫中資訊，根據地址在地圖上
+      $(document).ready(function(){
+        //凶宅
+        var endpoint = '/map/api/house/';
+        $.ajax({
+          method:'GET',
+          url:endpoint,
+          success:function(data){
+            for(var i = 0;i<data.length;i++){
+              console.log(data[i].address);
+              place_marker_house(map,data[i]);
+            }
+            markerClusterHouse = new MarkerClusterer(map, markersHouse,
+                options,{ ignoreHiddenMarkers: true });
+          },
+          error:function(error_data){
+            console.log("error");
+            console.log(error_data);
+          }
+        })
 
+        //交通事故
+        var endpoint_traf = '/map/api/traffic/';
+        $.ajax({
+          method:'GET',
+          url:endpoint_traf,
+          success:function(data_traf){
+            for(var i = 0;i<data_traf.length;i++){
+              console.log(data_traf[i].address);
+              place_marker_traf(map,data_traf[i]);
+            }
+            markerClusterTraf = new MarkerClusterer(map, markersTraffic,
+                options,{ ignoreHiddenMarkers: true });
+            setMapOnAll(null,1);
+            markerClusterTraf.clearMarkers();
+          },
+          error:function(error_data){
+            console.log("error");
+            console.log(error_data);
+          }
+        })
+      })
+</script>
+```
 
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
