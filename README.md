@@ -650,7 +650,8 @@ html, body{
 ---    
 使用ORM來跟資料庫互動。
 `python manage.py shell`開啟互動式shell。 
-輸入以下指令，將csv檔案中的資料存入database。  
+輸入以下指令，將csv檔案中的資料存入database。
+```
 > import csv
 > from mapPage.models import HouseLocation
 > with open('houseData.csv') as csvfile:
@@ -660,6 +661,7 @@ html, body{
 > ...       p.save()
 > ...  
 > exit()
+```
 
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
