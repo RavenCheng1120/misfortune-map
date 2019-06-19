@@ -657,14 +657,17 @@ html, body{
 > with open('houseData.csv') as csvfile:
 > ...     reader = csv.DictReader(csvfile)
 > ...     for row in reader:
-> ...       p=HouseLocation(address=row['address'],category=row['category'],
-   ...: date=row['date'],lat=row['lat'],lng=row['lng'],article=row['article'],we
-   ...: bsite=row['website'])
+> ...       p=HouseLocation(address=row['address'],category=row['category'],date=row['date'],lat=row['lat'],lng=row['lng'],article=row['article'],website=row['website'])
 > ...       p.save()
 > ...  
 > exit()
 ```
-
+    
+    
+## 最後成果
+`python manage.py runserver`開啟網頁。 
+    
+    
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
 在地圖上加點擊資訊視窗，參考：https://www.oxxostudio.tw/articles/201801/google-maps-5-marker-click-event.html     
