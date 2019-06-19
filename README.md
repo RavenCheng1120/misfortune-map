@@ -20,8 +20,7 @@ Django有屬於它的MTV(Model-Template-Views)
 + Views：傳達資料內容  
   
 ### 創建
-+ 首先，先下載Django。在終端機下達指令   
-`pip install django`   
++ 首先，先下載Django。在終端機下達指令`pip install django`   
   
 + 輸入`django-admin startproject misfortuneMap`創建Django project，misfortuneMap是root app名稱。  
     
@@ -29,6 +28,8 @@ Django有屬於它的MTV(Model-Template-Views)
   
 + 為了將各作用的網站分開，我們在root app之下創建一個新的app，作為地圖頁面，以方便日後有更多功能時，管理比較便利。  
 `python manage.py startapp mapPage`創建新的app。 隨後在settings.py中加入app名稱-mapPage。
+    
++ 安裝django REST Framework`pip install djangorestframework`，在settings.py中加入rest_framework。   
 ```
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,11 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'mapPage',
 ]
 ```
-+ 安裝django REST Framework
-> pip install djangorestframework   
 ---   
 ### urls.py 
 在mapPage的urls.py之下，建立網址連結。  
@@ -82,7 +82,42 @@ class trafficView(viewsets.ModelViewSet):
     queryset = TrafficLocation.objects.all()
     serializer_class = TrafficSerializer
 ```   
-  
+---
+### models.py 
+建立資料庫格式，分為`凶宅資料`與`交通事故資料`。
+```python
+from django.db import models
+
+#凶宅資料庫
+class HouseLocation(models.Model):
+    address = models.CharField(max_length=150)
+    lat = models.FloatField(default=None)
+    lng = models.FloatField(default=None)
+    category = models.CharField(max_length=15, default='自殺')
+    article = models.TextField()
+    website = models.URLField()
+    date = models.DateField(null=True, blank=True)
+
+    #QuerySet中object顯示名稱
+    def __str__(self):
+        return self.address
+
+#交通事故資料庫
+class TrafficLocation(models.Model):
+    address = models.CharField(max_length=150)
+    lat = models.FloatField(default=None)
+    lng = models.FloatField(default=None)
+    category = models.CharField(max_length=15, default='汽車擦撞')
+    date = models.DateField(null=True, blank=True)
+
+    #QuerySet中object顯示名稱
+    def __str__(self):
+        return self.address
+```
+
+
+
+
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
 在地圖上加點擊資訊視窗，參考：https://www.oxxostudio.tw/articles/201801/google-maps-5-marker-click-event.html     
