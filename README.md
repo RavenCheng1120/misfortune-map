@@ -45,6 +45,8 @@ INSTALLED_APPS = [
 ---   
 ### urls.py 
 在mapPage的urls.py之下，建立網址連結。  
+`path('', views.map_Page)`代表輸入網址 http://127.0.0.1:8000/map/ 時，會連接到views.py的map_Page函數。    
+而`path('api/', include(router.urls))`是REST Framework的功能，當輸入 http://127.0.0.1:8000/map/api/house/ 時，可以連接到凶宅資料庫，觀看與更改資料庫內容。
 ```python
 from django.urls import path,include
 from . import views
@@ -61,7 +63,9 @@ urlpatterns = [
 ```   
 --- 
 ### views.py  
-mapPage views.py中建立map_Page function，這樣urls.py才能連結到此處，map_Page function回傳html檔案讓網頁顯示。    
+mapPage views.py中建立map_Page function，這樣urls.py才能連結到此處，map_Page function回傳html檔案讓網頁顯示。  
+housesView和trafficView兩個class是用於REST framework的serialize，`HouseLocation.objects.all()`指令可以選取該資料庫中的所有資料。   
+HouseSerializer, TrafficSerializer是serializers.py中的class，稍後會提到。   
 ```python
 # -*- coding: UTF-8 -*-
 from django.shortcuts import render
@@ -84,7 +88,8 @@ class trafficView(viewsets.ModelViewSet):
 ```   
 ---
 ### models.py 
-建立資料庫格式，分為`凶宅資料`與`交通事故資料`。
+建立資料庫格式，分為`凶宅資料`與`交通事故資料`。    
+各models有不同的資料型態，可觀看官網上的文件，使用適合的資料型態。https://docs.djangoproject.com/en/2.2/topics/db/models/    
 ```python
 from django.db import models
 
