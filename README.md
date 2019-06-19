@@ -666,7 +666,7 @@ html, body{
     
 ## 最後成果
 `python manage.py runserver`開啟網頁。 
-    
+[!image](https://github.com/RavenCheng1120/misfortune-map/blob/master/sample%20images/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-19%20%E4%B8%8B%E5%8D%883.16.12.png)    
     
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
