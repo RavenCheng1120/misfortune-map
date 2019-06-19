@@ -1,3 +1,5 @@
+# 厄運地圖-教學
+![image](https://github.com/RavenCheng1120/misfortune-map/blob/master/sample%20images/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-19%20%E4%B8%8B%E5%8D%883.19.12.png)
 ## 第一步：收集資料    
 |文件類型|出處| 
 |-------|:----| 
