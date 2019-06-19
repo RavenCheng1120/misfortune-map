@@ -188,6 +188,20 @@ STATICFILES_DIRS=(
 ## 第四步：撰寫html文件   
 將google map呈現在網頁上，並配合SQLite資料庫的資料取用。  
 在html檔案上方加入`{% load static from staticfiles %}`，用來存取assests中的文件與圖片。 
+首先，在head的部分連結上stylesheet和jquery。  
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <title>厄運地圖</title>
+    <link rel="stylesheet" href="{% static 'mapStyle.css'%}">
+    <meta name="viewport" content="initial-scale=1.0">
+  </head>
+```
+
+
 
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
