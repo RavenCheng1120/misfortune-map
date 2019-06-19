@@ -640,7 +640,11 @@ html, body{
 ```
 
 ## 第六步：將資料存進database，以及migrate
-每當
+每當model有做變動，或是第一次創建model時，需要使用migrate來告知django有哪些變動。  
+`python manage.py makemigrations`   
+創建migration文件。  
+`python manage.py migrate`  
+更新資料庫。  
 
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
