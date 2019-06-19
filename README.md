@@ -1,9 +1,14 @@
-# misfortune-map    
-## *第一步：收集資料    
+## 第一步：收集資料    
 |文件類型|出處| 
 |-----------|---------| 
 |凶宅資料|https://unluckyhouse.com/archive/index.php/f-13.html| 
-|台中市政府交通事故|https://opendata.taichung.gov.tw/dataset?q=%E4%BA%A4%E9%80%9A%E4%BA%8B%E6%95%85| 
+|台中交通事故|https://opendata.taichung.gov.tw/dataset?q=%E4%BA%A4%E9%80%9A%E4%BA%8B%E6%95%85| 
+  
+此地圖使用交通事故資料集與凶宅網所搜集下來的資料，經過人工處理後，製作成json格式的文件，並將地址轉換成經緯度存取。 
+  
+## 第二步：啟用google Maps API  
+啟用google maps javescript api，先申請憑證，建立專屬的金鑰key，可以讓 Google 識別是哪個使用者在用對應的服務，並且根據使用者權限和使用的服務，提供對應的功能和限制。  
+教學網址：https://www.oxxostudio.tw/articles/201707/google-maps-1.html
 
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
 在地圖上加點擊資訊視窗，參考：https://www.oxxostudio.tw/articles/201801/google-maps-5-marker-click-event.html     
