@@ -24,8 +24,10 @@ Django有屬於它的MTV(Model-Template-Views)
   
 輸入`django-admin startproject misfortuneMap`創建Django project，misfortuneMap是root app名稱。  
     
-若要開啟server，輸入`python manage.py runserver`，則"http://127.0.0.1:8000/"可開啟網站。   
+若要開啟server，輸入`python manage.py runserver`，則 http://127.0.0.1:8000/ 可開啟網站。  
   
+為了將各作用的網站分開，我們在root app之下創建一個新的app，作為地圖頁面，以方便日後有更多功能時，管理比較便利。  
+`python manage.py startapp mapPage`創建新的app。     
   
   
   
