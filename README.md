@@ -234,9 +234,116 @@ STATICFILES_DIRS=(
 ```html
 <script src="{% static 'markerclusterer.js'%}">
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVRA9wbRv6YFZpIYcsdTmcWr0Xeqgap2A&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=my_KEY&callback=initMap"
   async defer>
 </script>
+```
++ intiMap()初始化地圖的位置、樣式。   
+將mapTypeControl和fullscreenControl功能關閉。
+```html
+<script>
+      var map;
+      var geocoder;
+      var markerClusterTraf;
+      var markerClusterHouse;
+      var markersHouse = [];
+      var markersTraffic = [];
+
+      //設定地圖初始位置
+      function initMap() {
+        var styledMapType = new google.maps.StyledMapType(
+          [
+            {
+                "featureType": "all",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "invert_lightness": true
+                    },
+                    {
+                        "saturation": 20
+                    },
+                    {
+                        "lightness": 50
+                    },
+                    {
+                        "gamma": 0.4
+                    },
+                    {
+                        "hue": "#00ffee"
+                    }
+                ]
+            },
+            {
+                "featureType": "all",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "all",
+                "elementType": "labels",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    },
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative.land_parcel",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "landscape",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#405769"
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#232f3a"
+                    }
+                ]
+            }
+          ],
+            {name:'黑暗模式'});
+        geocoder = new google.maps.Geocoder();
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 24.135, lng: 120.65},
+          zoom: 11,
+          mapTypeControl: false,
+          fullscreenControl: false
+        });
+        map.mapTypes.set('黑暗模式', styledMapType);
+        map.setMapTypeId('黑暗模式');
+      }
+    </script>
 ```
 
 ## 參考資料
