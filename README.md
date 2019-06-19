@@ -6,13 +6,15 @@
   
 此地圖使用交通事故資料集與凶宅網所搜集下來的資料，經過人工處理後，製作成json格式的文件，並將地址轉換成經緯度存取。 
   
+  
 ## 第二步：啟用google Maps API  
 啟用google maps javescript api，先申請憑證，建立專屬的金鑰key，可以讓 Google 識別是哪個使用者在用對應的服務，並且根據使用者權限和使用的服務，提供對應的功能和限制。  
 教學網址：https://www.oxxostudio.tw/articles/201707/google-maps-1.html 
   
+  
 ## 第三步：創建Django專案 
 Django是一個基於Python語言所寫出來的框架，簡化了很多寫網頁的流程。 
-Django有屬於它的MTV(Model-Template-Views)： 
+Django有屬於它的MTV(Model-Template-Views)  
 Model：描述你的資料類型  
 Template：使用者看到網頁的形式 
 Views：傳達資料內容  
