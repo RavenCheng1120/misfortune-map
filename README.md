@@ -181,6 +181,10 @@ STATICFILES_DIRS=(
     os.path.join(BASE_DIR,'assets'),
 )
 ```
+    
+    
+## 第四步：撰寫html文件   
+將google map呈現在網頁上，並配合SQLite資料庫的資料取用。  
 
 
 ## 參考資料
