@@ -88,7 +88,8 @@ class trafficView(viewsets.ModelViewSet):
 ```   
 ---
 ### models.py 
-建立資料庫格式，分為`凶宅資料`與`交通事故資料`。    
+建立資料庫格式，分為`凶宅資料`與`交通事故資料`。 
+Django 預設是使用 SQLite ，如果想要修改為其他的資料庫，可以在 settings.py 裡面進行修改。  
 各models有不同的資料型態，可觀看官網上的文件，使用適合的資料型態。https://docs.djangoproject.com/en/2.2/topics/db/models/    
 ```python
 from django.db import models
@@ -119,8 +120,36 @@ class TrafficLocation(models.Model):
     def __str__(self):
         return self.address
 ```
+--- 
+### serializers.py  
+在mapPage下創建serializers python檔案，配合rest framework使用，可序列化資料庫中的資料，給views.py與urls.py使用。   
+```python
+from rest_framework import serializers
+from .models import HouseLocation, TrafficLocation
 
+class HouseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HouseLocation
+        fields = '__all__'
+        #fields = ('id','address','article','website','date')
 
+class TrafficSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrafficLocation
+        fields = '__all__'
+``` 
+---
+### admin.py
+將model放到django administration，以方便控管。
+> python manage.py createsuperuser
+先設定super user，可以進入admin區域，設定好user和密碼，就可以透過 http://127.0.0.1:8000/admin/ 進入django administration。  
+```python
+from django.contrib import admin
+from .models import HouseLocation, TrafficLocation
+
+admin.site.register(HouseLocation)
+admin.site.register(TrafficLocation)
+```
 
 
 ## 參考資料
