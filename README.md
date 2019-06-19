@@ -12,17 +12,21 @@
 教學網址：https://www.oxxostudio.tw/articles/201707/google-maps-1.html 
   
   
-## 第三步：創建Django專案 
+## 第三步：打造Django專案 
 Django是一個基於Python語言所寫出來的框架，簡化了很多寫網頁的流程。 
 Django有屬於它的MTV(Model-Template-Views)
 + Model：描述你的資料類型  
 + Template：使用者看到網頁的形式   
 + Views：傳達資料內容  
   
-  
+### 創建
 首先，先下載Django。在終端機下達指令
-`pip install django`
-
+`pip install django`  
+輸入`django-admin startproject misfortuneMap`創建Django project，misfortuneMap是root app名稱。 
+  
+  
+  
+  
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
 在地圖上加點擊資訊視窗，參考：https://www.oxxostudio.tw/articles/201801/google-maps-5-marker-click-event.html     
 地圖標記圖案：https://mapicons.mapsmarker.com/     
