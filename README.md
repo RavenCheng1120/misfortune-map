@@ -187,6 +187,7 @@ STATICFILES_DIRS=(
     
 ## 第四步：撰寫html文件   
 將google map呈現在網頁上，並配合SQLite資料庫的資料取用。  
+將html file存在mapPage/templates/mapPage，以免跟root app中的template搞混。  
 在html檔案上方加入`{% load static from staticfiles %}`，用來存取assests中的文件與圖片。   
 + 首先，在head的部分連結上stylesheet和jquery。  
 ```html
@@ -567,6 +568,74 @@ marker的addListener控制資訊卡可以彈出或收回。
         });
       }
 </script>
+```
+    
+    
+## 第五步：套上css樣式
+將css file存在assets資料夾中。主要控制側邊欄位的縮放與點擊。
+```css
+#map {
+  height: 100%;
+  margin-left:12%;
+}
+.search-box{
+  position: fixed;
+  z-index: 2;
+  margin-left:13%;
+  margin-top: 21px;
+  padding: 6px 8px;
+  background-color: #bbffee;
+  display: none;
+}
+.side-bar{
+  height: 100%;
+  width: 12%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+.side-bar a, .dropdown-btn, .side-bar label{
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.side-bar a:hover, .dropdown-btn:hover, .side-bar label:hover{
+  color: #f1f1f1;
+}
+.active {
+  background-color: green;
+  color: white;
+}
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+}
+.dropdown-container input:checked + label {
+  color: #f1f1f1;
+}
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+html, body{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Lato", sans-serif;
+}
 ```
 
 ## 參考資料
