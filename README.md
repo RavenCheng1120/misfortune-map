@@ -20,14 +20,31 @@ Django有屬於它的MTV(Model-Template-Views)
 + Views：傳達資料內容  
   
 ### 創建
-首先，先下載Django。在終端機下達指令`pip install django`   
++ 首先，先下載Django。在終端機下達指令`pip install django`   
   
-輸入`django-admin startproject misfortuneMap`創建Django project，misfortuneMap是root app名稱。  
++ 輸入`django-admin startproject misfortuneMap`創建Django project，misfortuneMap是root app名稱。  
     
-若要開啟server，輸入`python manage.py runserver`，則 http://127.0.0.1:8000/ 可開啟網站。  
++ 若要開啟server，輸入`python manage.py runserver`，則 http://127.0.0.1:8000/ 可開啟網站。  
   
-為了將各作用的網站分開，我們在root app之下創建一個新的app，作為地圖頁面，以方便日後有更多功能時，管理比較便利。  
++ 為了將各作用的網站分開，我們在root app之下創建一個新的app，作為地圖頁面，以方便日後有更多功能時，管理比較便利。  
 `python manage.py startapp mapPage`創建新的app。     
+  
+---   
+在mapPage的urls.py之下，建立網址連結。  
+```python
+from django.urls import path,include
+from . import views
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register('house', views.housesView,basename='HouseLocation')
+router.register('traffic', views.trafficView,basename='TrafficLocation')
+
+urlpatterns = [
+    path('', views.map_Page),
+    path('api/', include(router.urls)),
+]
+```   
   
   
   
