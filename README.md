@@ -657,7 +657,9 @@ html, body{
 > with open('houseData.csv') as csvfile:
 > ...     reader = csv.DictReader(csvfile)
 > ...     for row in reader:
-> ...       p=HouseLocation(address=row['address'],category=row['category'],date=row['date'],lat=row['lat'],lng=row['lng'],article=row['article'],wesite=row['website]])
+> ...       p=HouseLocation(address=row['address'],category=row['category'],
+   ...: date=row['date'],lat=row['lat'],lng=row['lng'],article=row['article'],we
+   ...: bsite=row['website'])
 > ...       p.save()
 > ...  
 > exit()
