@@ -27,8 +27,7 @@ Django有屬於它的MTV(Model-Template-Views)
 + 若要開啟server，輸入`python manage.py runserver`，則 http://127.0.0.1:8000/ 可開啟網站。  
   
 + 為了將各作用的網站分開，我們在root app之下創建一個新的app，作為地圖頁面，以方便日後有更多功能時，管理比較便利。  
-`python manage.py startapp mapPage`創建新的app。   
-隨後在settings.py中加入app名稱-mapPage
+`python manage.py startapp mapPage`創建新的app。 隨後在settings.py中加入app名稱-mapPage。
 ```
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -57,9 +56,30 @@ urlpatterns = [
     path('api/', include(router.urls)),
 ]
 ```   
+---
+mapPage中建立map_Page function，這樣urls.py才能連結到此處，map_Page function回傳html檔案讓網頁顯示。    
+```python
+# -*- coding: UTF-8 -*-
+from django.shortcuts import render
+from .models import HouseLocation, TrafficLocation
+from rest_framework import viewsets
+from .serializers import HouseSerializer, TrafficSerializer
+
+def map_Page(request):
+    #houses = HouseLocation.objects.all()
+    #return render(request,'mapPage/mapDisplay.html',{'houses':houses})
+    return render(request,'mapPage/mapDisplay.html')
+
+class housesView(viewsets.ModelViewSet):
+    queryset = HouseLocation.objects.all()
+    serializer_class = HouseSerializer
+
+class trafficView(viewsets.ModelViewSet):
+    queryset = TrafficLocation.objects.all()
+    serializer_class = TrafficSerializer
+```   
   
-  
-  
+## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
 在地圖上加點擊資訊視窗，參考：https://www.oxxostudio.tw/articles/201801/google-maps-5-marker-click-event.html     
 地圖標記圖案：https://mapicons.mapsmarker.com/     
