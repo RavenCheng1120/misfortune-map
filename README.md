@@ -20,7 +20,8 @@ Django有屬於它的MTV(Model-Template-Views)
 + Views：傳達資料內容  
   
 ### 創建
-+ 首先，先下載Django。在終端機下達指令`pip install django`   
++ 首先，先下載Django。在終端機下達指令   
+`pip install django`   
   
 + 輸入`django-admin startproject misfortuneMap`創建Django project，misfortuneMap是root app名稱。  
     
@@ -39,7 +40,8 @@ INSTALLED_APPS = [
     'mapPage',
 ]
 ```
-  
++ 安裝django REST Framework
+> pip install djangorestframework   
 ---   
 ### urls.py 
 在mapPage的urls.py之下，建立網址連結。  
