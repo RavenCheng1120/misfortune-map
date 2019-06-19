@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 ```
   
 ---   
+### urls.py 
 在mapPage的urls.py之下，建立網址連結。  
 ```python
 from django.urls import path,include
@@ -56,8 +57,9 @@ urlpatterns = [
     path('api/', include(router.urls)),
 ]
 ```   
----
-mapPage中建立map_Page function，這樣urls.py才能連結到此處，map_Page function回傳html檔案讓網頁顯示。    
+--- 
+### views.py  
+mapPage views.py中建立map_Page function，這樣urls.py才能連結到此處，map_Page function回傳html檔案讓網頁顯示。    
 ```python
 # -*- coding: UTF-8 -*-
 from django.shortcuts import render
