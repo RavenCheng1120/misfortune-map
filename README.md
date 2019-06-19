@@ -345,6 +345,124 @@ STATICFILES_DIRS=(
       }
     </script>
 ```
++ 側邊欄展開或收起
+```html
+<script>
+  var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+    for (i = 0; i < dropdown.length; i++) {
+      dropdown[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var dropdownContent = this.nextElementSibling;
+        if (dropdownContent.style.display === "block") {
+          dropdownContent.style.display = "none";
+        } else {
+          dropdownContent.style.display = "block";
+        }
+      });
+    }
+</script>
+```
++ 開關地圖上的標記，setMapOnAll(null)是清除所有地圖標記的函數，setMapOnAll(map)則是將地圖標記重新放上。   
+使用checkbox觀察哪一個選項被開啟或關閉。
+```html
+<script>
+  //開關地圖上的凶宅標記
+    function houseCheckbox(){
+      var checkBox = document.getElementById("houseCheck");
+      if (checkBox.checked == true){
+        document.getElementById("h-container").style.color= 'white';
+        setMapOnAll(map,0);
+        markerClusterHouse.addMarkers(markersHouse);
+      } else {
+        document.getElementById("h-container").style.color= '#818181';
+        setMapOnAll(null,0);
+        markerClusterHouse.clearMarkers();
+      }
+    }
+
+    //開關地圖上的交通事故標記
+    function trafficCheckbox(){
+      var checkBox = document.getElementById("trafficCheck");
+      if (checkBox.checked == true){
+        document.getElementById("traf-container").style.color= 'white';
+        setMapOnAll(map,1);
+        markerClusterTraf.addMarkers(markersTraffic);
+      } else {
+        document.getElementById("traf-container").style.color= '#818181';
+        setMapOnAll(null,1);
+        markerClusterTraf.clearMarkers();
+      }
+    }
+</script>
+```
++ setMapOnAll function，num=0時是設定凶宅，num=1則是設定交通事故。
+```html
+<script>
+    //放上或清除地圖上的標記
+    function setMapOnAll(map,num) {
+      //凶宅
+      if(num==0){
+        for (var i = 0; i < markersHouse.length; i++)
+          markersHouse[i].setMap(map);
+      }
+      //交通事故
+      else if(num==1) {
+        for (var i = 0; i < markersTraffic.length; i++)
+          markersTraffic[i].setMap(map);
+      }
+    }
+</script>
+```
++ 搜尋bar開啟或收起
+```html
+<script>
+  //彈出或收起地址搜尋框
+    var search_check = 0;
+    function searchFunction(){
+      var searchBar = document.getElementById("search-bar");
+      var searchBox = document.getElementsByClassName("search-box");
+      if(search_check==0){
+        searchBar.style.color = "white";
+        searchBar.style.background = "green";
+        searchBox[0].style.display = "block";
+        search_check=1;
+      }else if (search_check==1) {
+        searchBar.style.color = "#818181";
+        searchBar.style.background = "#111";
+        searchBox[0].style.display = "none";
+        search_check=0;
+      }
+    }
+</script>  
+```
++ 使用google map api : geocoding，將搜尋框的地址轉換成經緯度，再由經緯度在地圖上放上標記
+```html
+<script> 
+  //開始搜尋地址
+    var old_address_marker=null;
+    function startSearching(){
+      //抓取搜尋欄的地址，放上地標
+      var address = document.getElementById('inputAddress').value;
+      geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == 'OK') {
+        map.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location
+        });
+        //去除上次搜尋的地標
+        if(old_address_marker!=null)
+          old_address_marker.setMap(null);
+        old_address_marker = marker;
+      } else {
+        alert('找不到這個地點，請重新輸入地址。');
+      }
+    });
+    }
+</script>
+```
+
 
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
