@@ -4,7 +4,7 @@
 |凶宅資料|https://unluckyhouse.com/archive/index.php/f-13.html| 
 |交通事故|https://opendata.taichung.gov.tw/dataset?q=%E4%BA%A4%E9%80%9A%E4%BA%8B%E6%95%85| 
   
-此地圖使用交通事故資料集與凶宅網所搜集下來的資料，經過人工處理後，製作成json格式的文件，並將地址轉換成經緯度存取。 
+此地圖使用交通事故資料集與凶宅網所搜集下來的資料，經過人工處理後，製作成csv格式的文件，並將地址轉換成經緯度存取。 
   
   
 ## 第二步：啟用google Maps API  
@@ -643,8 +643,23 @@ html, body{
 每當model有做變動，或是第一次創建model時，需要使用migrate來告知django有哪些變動。  
 `python manage.py makemigrations`   
 創建migration文件。  
+    
 `python manage.py migrate`  
 更新資料庫。  
+    
+---    
+使用ORM來跟資料庫互動。
+`python manage.py shell`開啟互動式shell。 
+輸入以下指令，將csv檔案中的資料存入database。  
+> import csv
+> from mapPage.models import HouseLocation
+> with open('houseData.csv') as csvfile:
+> ...     reader = csv.DictReader(csvfile)
+> ...     for row in reader:
+> ...       p=HouseLocation(address=row['address'],category=row['category'],date=row['date'],lat=row['lat'],lng=row['lng'],article=row['article'],wesite=row['website]])
+> ...       p.save()
+> ...  
+> exit()
 
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
