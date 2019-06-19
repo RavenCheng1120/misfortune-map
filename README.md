@@ -141,8 +141,8 @@ class TrafficSerializer(serializers.ModelSerializer):
 ---
 ### admin.py
 將model放到django administration，以方便控管。
-> python manage.py createsuperuser    
-先設定super user，可以進入admin區域，設定好user和密碼，就可以透過 http://127.0.0.1:8000/admin/ 進入django administration。  
+> python manage.py createsuperuser   
+  先設定super user，可以進入admin區域，設定好user和密碼，就可以透過 http://127.0.0.1:8000/admin/ 進入django administration。  
 ```python
 from django.contrib import admin
 from .models import HouseLocation, TrafficLocation
@@ -152,7 +152,7 @@ admin.site.register(TrafficLocation)
 ```
 ---
 ### 設定template  
-要連接html, css, javascript等網頁代碼，要先新增一個templates資料夾，將上述的檔案放進去，並在setting.py中的'DIRS'連接上templates。  
+要連接html，要先新增一個templates資料夾，將html檔案放進去，並在setting.py中的'DIRS'連接上templates。  
 ```
 TEMPLATES = [
     {
@@ -170,6 +170,18 @@ TEMPLATES = [
     },
 ]
 ```
+--- 
+### 連接assets
+在最外層建立一個assets資料夾，存放圖片、javascript、css等檔案。   
+並在settings.py中將它連接到static，方便以後取用。
+```
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS=(
+    os.path.join(BASE_DIR,'assets'),
+)
+```
+
 
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
