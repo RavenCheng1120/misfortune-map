@@ -572,7 +572,8 @@ marker的addListener控制資訊卡可以彈出或收回。
     
     
 ## 第五步：套上css樣式
-將css file存在assets資料夾中。主要控制側邊欄位的縮放與點擊。
+將css file存在assets資料夾中。  
+主要控制側邊欄位的縮放與點擊。
 ```css
 #map {
   height: 100%;
@@ -637,6 +638,9 @@ html, body{
   font-family: "Lato", sans-serif;
 }
 ```
+
+## 第六步：將資料存進database，以及migrate
+每當
 
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
