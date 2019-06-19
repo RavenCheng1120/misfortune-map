@@ -666,9 +666,18 @@ html, body{
     
 ## 最後成果
 `python manage.py runserver`開啟網頁。 
++ 起始畫面  
 ![image](https://github.com/RavenCheng1120/misfortune-map/blob/master/sample%20images/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-19%20%E4%B8%8B%E5%8D%883.16.12.png)   
++ 拉近地圖，凶宅標記出現 
 ![image](https://github.com/RavenCheng1120/misfortune-map/blob/master/sample%20images/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-19%20%E4%B8%8B%E5%8D%883.16.34.png)  
-![image](https://github.com/RavenCheng1120/misfortune-map/blob/master/sample%20images/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-19%20%E4%B8%8B%E5%8D%883.16.53.png)
++ 開啟交通事故標記  
+![image](https://github.com/RavenCheng1120/misfortune-map/blob/master/sample%20images/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-19%20%E4%B8%8B%E5%8D%883.16.53.png)  
++ 開啟資訊卡 
+![image](https://github.com/RavenCheng1120/misfortune-map/blob/master/sample%20images/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-19%20%E4%B8%8B%E5%8D%883.17.17.png)  
++ 點擊資訊卡上的「點我觀看詳情」，會連結到凶宅網 
+![image](https://github.com/RavenCheng1120/misfortune-map/blob/master/sample%20images/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-19%20%E4%B8%8B%E5%8D%883.18.28.png)  
++ 輸入地址查詢  
+![image](https://github.com/RavenCheng1120/misfortune-map/blob/master/sample%20images/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-19%20%E4%B8%8B%E5%8D%883.17.56.png)  
 
 
 ## 參考資料
