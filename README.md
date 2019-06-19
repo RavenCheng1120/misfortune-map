@@ -187,8 +187,8 @@ STATICFILES_DIRS=(
     
 ## 第四步：撰寫html文件   
 將google map呈現在網頁上，並配合SQLite資料庫的資料取用。  
-在html檔案上方加入`{% load static from staticfiles %}`，用來存取assests中的文件與圖片。 
-首先，在head的部分連結上stylesheet和jquery。  
+在html檔案上方加入`{% load static from staticfiles %}`，用來存取assests中的文件與圖片。   
++ 首先，在head的部分連結上stylesheet和jquery。  
 ```html
 <!DOCTYPE html>
 <html>
@@ -199,6 +199,32 @@ STATICFILES_DIRS=(
     <link rel="stylesheet" href="{% static 'mapStyle.css'%}">
     <meta name="viewport" content="initial-scale=1.0">
   </head>
+``` 
++ 設置左側欄位的按鈕，以及隱藏起來的查詢bar  
+```html
+<body>
+    <div class="side-bar">
+      <a id="search-bar" onclick="searchFunction()">查詢地點</a>
+      
+      <button class="dropdown-btn">篩選
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <label id="h-container" style="color:white;">凶宅
+          <input type="checkbox" checked="checked" id="houseCheck" onclick="houseCheckbox()">
+        </label>
+        <label id="traf-container">交通事故
+          <input type="checkbox" id="trafficCheck" onclick="trafficCheckbox()">
+        </label>
+      </div>
+
+    </div>
+    <div class="search-box">
+      <form>
+        請輸入地址：<input type="text" style="padding:3px;" size="50" id="inputAddress">
+        <button type="button" onclick="startSearching()">搜尋</button>
+      </form>
+    </div>
 ```
 
 
