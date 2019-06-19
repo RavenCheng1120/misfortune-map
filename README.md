@@ -513,6 +513,61 @@ MarkerClusterer可以製作標記群集，把相近的標記歸類到同一點�
       })
 </script>
 ```
++ 放下交通事故的地圖標記，而icon是儲存在assets中的圖片，用template tag去取得圖片位址。   
+google.maps.InfoWindow可以加入訊息視窗。   
+marker的addListener控制資訊卡可以彈出或收回。
+```html
+<script>
+    function place_marker_traf(map,data_traf){
+      var check = -1;
+      var marker = new google.maps.Marker({
+        position: {lat:data_traf.lat, lng:data_traf.lng},
+        map: map,
+        icon: "{% static 'car.png'%}"
+      });
+      markersTraffic.push(marker);
+      //加上點擊事件與資訊視窗
+      var infowindow = new google.maps.InfoWindow({
+        content:'<strong>地點:'+data_traf.address+'</strong><br/>時間：'+data_traf.date+'<br/>交通事故類別：'+data_traf.category
+      });
+
+      marker.addListener('click',function(){
+        check = check * -1;
+        if(check > 0){
+          infowindow.open(map, marker);
+        }else{
+          infowindow.close();
+        }
+      });
+    }
+</script>
+```
+```html
+<script>
+    function place_marker_house(map,location){
+        var check = -1;
+        var marker = new google.maps.Marker({
+          position: {lat:location.lat, lng:location.lng},
+          map: map,
+          icon: "{% static 'skull.png'%}"
+        });
+        markersHouse.push(marker);
+        //加上點擊事件與資訊視窗
+        var infowindow = new google.maps.InfoWindow({
+          content:'<strong>事件'+location.category+'</strong><br/>地點：'+location.address+'<br/><a href="'+location.website+'">點我觀看詳情</a>'
+        });
+
+        marker.addListener('click',function(){
+          check = check * -1;
+          if(check > 0){
+            infowindow.open(map, marker);
+          }else{
+            infowindow.close();
+          }
+        });
+      }
+</script>
+```
 
 ## 參考資料
 使用django REST framework傳輸資料庫內資料給javascript使用，參考：https://www.youtube.com/watch?v=B4Vmm3yZPgc     
